@@ -9,9 +9,14 @@ let tasks = [];
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach(task => {
+    tasks.forEach((task, index) => {
         const li = document.createElement("li");
-        li.textContent = task;
+
+        const span = document.createElement("li");
+        span.textContent = task;
+
+        li.appendChild(span);
+        
         taskList.appendChild(li);
     });
 }
