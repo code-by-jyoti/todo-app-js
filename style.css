@@ -60,3 +60,17 @@ h1 {
     padding: 10px;
     margin-bottom: 10px;
 }
+
+/* BUTTONS */
+.delete-btn {
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ff4d4d;
+}
+
+.delete-btn:hover {
+    background-color: #e60000;
+}
