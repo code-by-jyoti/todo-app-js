@@ -10,12 +10,24 @@ function renderTasks() {
     taskList.innerHTML = "";
 
     tasks.forEach((task, index) => {
+        // Create list item
         const li = document.createElement("li");
 
+        // Create task text
         const span = document.createElement("li");
         span.textContent = task;
 
+        // Create delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.addEventListener("click", () => {
+            tasks.splice(index, 1);
+            renderTasks();
+        })
+
         li.appendChild(span);
+        li.appendChild(deleteBtn);
         
         taskList.appendChild(li);
     });
