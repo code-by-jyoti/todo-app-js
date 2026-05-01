@@ -15,6 +15,11 @@ This project is being developed step-by-step using a professional GitHub workflo
 
 ---
 
+## Screenshot
+![To-Do-App Screenshot](screenshots/home.png)
+
+---
+
 ## Tech Stack
 
 - HTML5 – Semantic structure  
