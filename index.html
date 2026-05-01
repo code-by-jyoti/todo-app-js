@@ -13,8 +13,22 @@
         <!-- Task input -->
         <div class="task-input">
             <input type="text" id="taskInput" name="taskInput" placeholder="Enter a new task">
+
+            <label for="importantCheck" class="important-label">
+                <input type="checkbox" id="importantCheck" name="importantCheck"> Important
+            </label>
+
             <button id="addTaskBtn">Add Task</button>
         </div>
+  
+        <!-- Live counters -->
+        <div class="task-counter">
+            Total: <span id="totalCount">0</span> |
+            Completed: <span id="completedCount">0</span> |
+            Pending: <span id="pendingCount">0</span> |
+            Important: <span id="importantCount">0</span>
+        </div>
+
         <ul id="taskList"></ul>
     </div>
     <script src="script.js"></script>
