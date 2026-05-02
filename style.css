@@ -11,24 +11,40 @@ body {
     align-items: center;
     min-height: 100vh;
     background: #ff9a9e;
+    background-size: 400% 400%;
 }
 
 .container {
+    position: relative;
     background: rgba(255, 255, 255, 0.95);
     padding: 25px;
     width: 100%;
+    max-width: 450px;
     border-radius: 20px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
 h1 {
     text-align: center;
     margin-bottom: 5px;
+    color: #333;
+    font-size: 28px;
+}
+
+.intro-text {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #555;
 }
 
 .task-input {
     display: flex;
     gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .task-input input {
@@ -36,6 +52,12 @@ h1 {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 10px;
+}
+
+.task-input input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px #007bff;
 }
 
 .task-input button {
@@ -59,6 +81,23 @@ h1 {
     cursor: pointer;
 }
 
+/* FILTERS */
+.task-filters {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 5px 10px;
+    border: none;
+    background: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 .task-counter {
     font-size: 14px;
     margin-bottom: 10px;
@@ -70,14 +109,32 @@ h1 {
 }
 
 #taskList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    background: rgba(245, 245, 245, 0.8);
 }
 
 #taskList li.important {
     border-left: 5px solid #ffcc00;
     border-right: 5px solid #ffcc00;
     background: rgba(255, 250, 200, 0.4);
+}
+
+
+#taskList li span {
+    flex: 1 1 150px;
+    margin: 0 10px;
+    word-break: break-word;
+    display: inline-block;
+}
+
+.completed {
+    background-color: rgba(200, 200, 200, 0.5);
 }
 
 .completed span {
@@ -88,11 +145,14 @@ h1 {
 /* BUTTONS */
 .edit-btn,
 .delete-btn {
+    margin-left: 5px;
     padding: 5px 10px;
     border: none;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .edit-btn {
@@ -109,4 +169,11 @@ h1 {
 
 .delete-btn:hover {
     background-color: #e60000;
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 15px;
+    color: #777;
+    font-style: italic;
 }
