@@ -3,6 +3,9 @@ const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 const importantCheck = document.getElementById("importantCheck");
 const dueDateInput = document.getElementById("dueDateInput");
+const filterBtns = document.querySelectorAll(".filter-btn");
+
+const sortSelect = document.getElementById("sortSelect");
 
 const totalCount = document.getElementById("totalCount");
 const completedCount = document.getElementById("completedCount");
@@ -11,6 +14,7 @@ const importantCount = document.getElementById("importantCount");
 
 // Array to store tasks
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
 
 // --- Save Tasks To Local Storage ---
 function saveTasks() {
@@ -25,11 +29,43 @@ function updateCounters() {
     importantCount.textContent = tasks.filter(t => t.important).length;
 }
 
+/* ---------------- SORT ---------------- */
+function sortTasks(list) {
+    const type = sortSelect.value;
+    let sorted = [...list];
+
+    if (type === "az") {
+        return sorted.sort((a, b) => a.text.localeCompare(b.text));
+    }
+    if (type === "za") {
+        return sorted.sort((a, b) => b.text.localeCompare(a.text));
+    }
+    if (type === "date") {
+        return sorted.sort(
+            (a, b) => new Date(a.dueDate || 0) - new Date(b.dueDate || 0)
+        );
+    }
+    if (type === "important") {
+        return sorted.sort((a, b) => b.important - a.important);
+    }
+
+    return sorted;
+}
+
 // Render function
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach((task, index) => {
+    let filteredTasks = tasks.filter(task => {
+        if (currentFilter === "all") return true;
+        if (currentFilter === "completed") return task.completed;
+        if (currentFilter === "pending") return !task.completed;
+        if (currentFilter === "important") return task.important;
+    });
+
+    filteredTasks = sortTasks(filteredTasks);
+
+    filteredTasks.forEach(task => {
         // Create list item
         const li = document.createElement("li");
 
@@ -39,6 +75,7 @@ function renderTasks() {
         /* ---------------- CHECKBOX ---------------- */
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
+        checkbox.tabIndex = 0;
         checkbox.checked = task.completed;
 
         checkbox.addEventListener("change", () => {
@@ -92,7 +129,7 @@ function renderTasks() {
         deleteBtn.className = "delete-btn";
 
         deleteBtn.addEventListener("click", () => {
-            tasks.splice(index, 1);
+            tasks = tasks.filter(t => t.id !== task.id);
 
             // Save updated tasks
             saveTasks();
@@ -108,6 +145,16 @@ function renderTasks() {
         
         taskList.appendChild(li);
     });
+
+    //EMPTY STATE CHECK
+    const emptyMsg = document.getElementById("emptyMsg");
+    if (filteredTasks.length === 0) {
+        emptyMsg.style.display = "block";
+    }
+    else {
+        emptyMsg.style.display = "none";
+    }
+
     updateCounters();
 }
 
@@ -132,21 +179,37 @@ function addTask() {
 
     // Add to array
     tasks.push(text);
-
-    // Save tasks
-    saveTasks();
     
     // Clear input field
     taskInput.value = "";
     importantCheck.checked = false;
     dueDateInput.value = "";
+    
+    // Save tasks
+    saveTasks();
 
     // Trigger render function to update UI
     renderTasks();
 }
 
-// Button click
+// --- FILTER BUTTONS ---
+filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        renderTasks();
+    });
+});
+
+/* ---------------- SORT ---------------- */
+sortSelect.addEventListener("change", renderTasks);
+
+// --- EVENT LISTENERS ---
 addTaskBtn.addEventListener("click", addTask);
+taskInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") addTask();
+});
 
 // Initital render on page load
 renderTasks();
