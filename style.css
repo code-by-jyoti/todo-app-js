@@ -86,12 +86,24 @@ h1 {
 }
 
 /* BUTTONS */
+.edit-btn,
 .delete-btn {
     padding: 5px 10px;
     border: none;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+}
+
+.edit-btn:hover {
+    background-color: #388e3c;
+}
+
+.delete-btn {
     background-color: #ff4d4d;
 }
 

@@ -2,6 +2,7 @@ const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 const importantCheck = document.getElementById("importantCheck");
+const dueDateInput = document.getElementById("dueDateInput");
 
 const totalCount = document.getElementById("totalCount");
 const completedCount = document.getElementById("completedCount");
@@ -52,6 +53,39 @@ function renderTasks() {
         const span = document.createElement("span");
         span.textContent = task;
 
+        /* ---- DUE DATE ---- */
+        const date = document.createElement("small");
+        if (task.dueDate) {
+            date.textContent = "📅 Due: " + new Date(task.dueDate).toDateString();
+        }
+        else {
+            date.textContent = "";
+        }
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.className = "edit-btn";
+
+        editBtn.addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.value = task.text;
+            input.className = "edit-input";
+
+            span.replaceWith(input);
+            input.focus();
+
+            input.addEventListener("blur", () => {
+                const value = input.value.trim();
+                if (value) {
+                task.text = value;
+                }
+
+                saveTasks();
+                renderTasks();
+            });
+        })
+
         // Create delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
@@ -68,6 +102,8 @@ function renderTasks() {
 
         li.appendChild(checkbox);
         li.appendChild(span);
+        li.appendChild(date);
+        li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         
         taskList.appendChild(li);
@@ -87,9 +123,11 @@ function addTask() {
 
     // Create task object
     const task = {
-        text: text,
+        id: Date.now(),
+        text,
         completed: false,
-        important: importantCheck.checked
+        important: importantCheck.checked,
+        dueDate: dueDateInput.value || ""
     };
 
     // Add to array
@@ -101,6 +139,7 @@ function addTask() {
     // Clear input field
     taskInput.value = "";
     importantCheck.checked = false;
+    dueDateInput.value = "";
 
     // Trigger render function to update UI
     renderTasks();
