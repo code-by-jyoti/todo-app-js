@@ -1,82 +1,143 @@
-# To-Do List App (Day 1 Progress)
+# Live To-Do List App
 
-A responsive To-Do List web application built using HTML, CSS, and JavaScript.  
-This project is being developed step-by-step using a professional GitHub workflow including issues, branches, commits, and pull requests.
+A full-featured and responsive To-Do List web application built using HTML, CSS, and Vanilla JavaScript.
+
+This project demonstrates strong frontend fundamentals including DOM manipulation, state management, localStorage persistence, drag-and-drop interactions, filtering, sorting, accessibility improvements, responsive design, and theme customization.
+
+The application was developed using a professional GitHub workflow with issues, feature branches, pull requests, and structured commits.
 
 ---
 
-## Features Implemented (Day 1)
+## Features
 
+### Task Management
 - Add new tasks
+- Edit existing tasks
 - Delete tasks
-- Prevent empty or invalid task entries
-- Basic UI layout
-- Basic localStorage integration (tasks persist on reload)
+- Prevent empty task submissions
+- Mark tasks as completed or pending
+- Add important tasks
+- Add due dates to tasks
 
 ---
 
-## Screenshot
-![To-Do-App Screenshot](screenshots/home.png)
+### Task Organization
+- Filter tasks:
+  - All
+  - Completed
+  - Pending
+  - Important
+
+- Sort tasks:
+  - A-Z
+  - Z-A
+  - Due Date
+  - Important First
+
+- Drag and drop task reordering
+
+---
+
+### UI & UX Features
+- Light theme
+- Dark theme
+- Neon theme
+- Floating icon animations
+- Hover effects and smooth transitions
+- Empty state handling
+- Responsive design for:
+  - Mobile
+  - Tablet
+  - Desktop
+
+---
+
+### Accessibility
+- ARIA labels added
+- Keyboard-friendly interactions
+- Semantic HTML structure
+
+---
+
+### Data Persistence
+- Tasks stored using browser localStorage
+- Task states persist after page refresh
 
 ---
 
 ## Tech Stack
 
-- HTML5 – Semantic structure  
-- CSS3 – Styling and layout  
-- JavaScript (ES6) – DOM manipulation and logic  
+- HTML5 – Semantic structure
+- CSS3 – Styling, responsiveness, animations
+- JavaScript (ES6) – Application logic and DOM manipulation
 
 ---
 
 ## Project Structure
 
-To-Do-List/  
-├── index.html  
-├── style.css  
-├── script.js  
-└── README.md  
-
+To-Do-List/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
 ---
 
 ## How It Works
 
-- Users can enter tasks using an input field
-- Tasks are dynamically added to the DOM
-- Tasks can be deleted instantly
-- Tasks are stored in localStorage for persistence
+- Users can create and manage tasks dynamically
+- Tasks are rendered using JavaScript DOM manipulation
+- Filters and sorting update the UI instantly
+- Tasks persist using localStorage
+- Drag-and-drop updates task order dynamically
+- Theme switching updates the UI in real time
 
 ---
 
 ## Development Workflow
 
-This project follows a structured development process:
+This project follows a professional Git workflow:
 
-- Issues created for each feature
-- Development done in `dev` branch
-- Pull Requests used for merging features
-- Self code reviews before merging
-
----
-
-## Upcoming Features
-
-- Edit task functionality  
-- Mark task as completed  
-- Task filtering (All, Completed, Pending, Important)  
-- Drag and drop task reordering  
-- Task sorting (name, date, priority)  
-- Task counters  
-- Theme switching (Light, Dark, Neon)  
-- Improved UI animations  
+- GitHub Issues for feature planning
+- Feature-based branching strategy
+- Pull Requests for merging changes
+- Self code reviews before merge
+- Structured commit messages
 
 ---
 
-## Status
+## Screenshot
 
-Work on Progress - Day 1 
+![To-Do-App Screenshot](screenshots/homefinal.png)
 
 ---
 
 ## Live Demo
 
-(Will be added after deployment)
+(Deployment link will be added here)
+
+---
+
+## Project Status
+
+✅ Completed
+
+---
+
+## Key Learning Outcomes
+
+- DOM manipulation using Vanilla JavaScript
+- State management
+- localStorage integration
+- Dynamic rendering
+- Responsive UI development
+- Accessibility improvements
+- Drag-and-drop implementation
+- Git & GitHub workflow
+- Feature branch development
+- Pull request workflow
+
+---
+
+## Author
+
+Built for frontend development practice and portfolio building

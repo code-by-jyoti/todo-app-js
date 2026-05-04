@@ -15,10 +15,23 @@ const importantCount = document.getElementById("importantCount");
 // Array to store tasks
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
+let draggedTaskId = null;
 
 // --- Save Tasks To Local Storage ---
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// --- SHOW FLOATING ICON ---
+function showFloatingIcon(icon, element) {
+    const rect = element.getBoundingClientRect();
+    const span = document.createElement("span");
+    span.className = "floating-icon";
+    span.textContent = icon;
+    span.style.left = rect.left + rect.width / 2 + "px";
+    span.style.top = rect.top + "px";
+    document.body.appendChild(span);
+    setTimeout(() => document.body.removeChild(span), 1000);
 }
 
 // --- UPDATE COUNTERS ---
@@ -72,11 +85,38 @@ function renderTasks() {
         li.classList.toggle("important", task.important);
         li.classList.toggle("completed", task.completed);
 
+        /* --------- DRAG START --------*/
+        li.draggable = true;
+
+        li.addEventListener("dragstart", () => {
+            draggedTaskId = task.id;
+        });
+
+        li.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        li.addEventListener("drop", () => {
+            const draggedIndex = tasks.findIndex(t => t.id === draggedTaskId);
+            const targetIndex = tasks.findIndex(t => t.id === task.id);
+            if (draggedIndex === -1 || targetIndex === -1) return;
+
+            const temp = tasks[draggedIndex];
+            tasks.splice(draggedIndex, 1);
+            tasks.splice(targetIndex, 0, temp);
+
+            saveTasks();
+            renderTasks();
+        });
+
         /* ---------------- CHECKBOX ---------------- */
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.tabIndex = 0;
         checkbox.checked = task.completed;
+
+        // accessibility 
+        checkbox.setAttribute("aria-label", "Mark task as Completed");
 
         checkbox.addEventListener("change", () => {
             task.completed = checkbox.checked;
@@ -84,11 +124,47 @@ function renderTasks() {
             saveTasks();
             renderTasks();
             updateCounters();
+        
+            showFloatingIcon("✓", li);
         });
 
         // Create task text
         const span = document.createElement("span");
-        span.textContent = task;
+        span.textContent = task.text;
+
+        /* ---- DUE DATE ---- */
+        const date = document.createElement("small");
+        if (task.dueDate) {
+            date.textContent = "📅 Due: " + new Date(task.dueDate).toDateString();
+        }
+        else {
+            date.textContent = "";
+        }
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.setAttribute("aria-label", "Edit task");
+        editBtn.className = "edit-btn";
+
+        editBtn.addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.value = task.text;
+            input.className = "edit-input";
+
+            span.replaceWith(input);
+            input.focus();
+
+            input.addEventListener("blur", () => {
+                const value = input.value.trim();
+                if (value) {
+                    task.text = value;
+                }
+
+                saveTasks();
+                renderTasks();
+            });
+        });
 
         /* ---- DUE DATE ---- */
         const date = document.createElement("small");
@@ -126,6 +202,7 @@ function renderTasks() {
         // Create delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("aria-label", "DeleteTask");
         deleteBtn.className = "delete-btn";
 
         deleteBtn.addEventListener("click", () => {
@@ -134,15 +211,14 @@ function renderTasks() {
             // Save updated tasks
             saveTasks();
             renderTasks();
-            updateCounters();
-        })
+        });
 
         li.appendChild(checkbox);
         li.appendChild(span);
         li.appendChild(date);
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
-        
+
         taskList.appendChild(li);
     });
 
@@ -178,19 +254,29 @@ function addTask() {
     };
 
     // Add to array
-    tasks.push(text);
-    
+    tasks.push(task);
+
     // Clear input field
     taskInput.value = "";
     importantCheck.checked = false;
     dueDateInput.value = "";
-    
+
     // Save tasks
     saveTasks();
 
     // Trigger render function to update UI
     renderTasks();
+
+    if (task.important) showFloatingIcon("★", taskInput);
 }
+
+// --- THEME SWITCHER ---
+themeSelect.addEventListener("change", () => {
+    document.body.classList.remove("theme-dark", "theme-neon");
+    if (themeSelect.value !== "default") {
+        document.body.classList.add("theme-" + themeSelect.value);
+    }
+});
 
 // --- FILTER BUTTONS ---
 filterBtns.forEach(btn => {
