@@ -3,20 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-Do-List-App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Your Live To-Do-List</h1>
+        <h1 class="intro">Welcome to Your Live To-Do-List!</h1>
+        <p class="intro-text">Stay organized, mark important tasks, and complete them with joy! 💡</p>
+
+        <!-- Theme switcher -->
+        <div class="theme-switcher">
+            <label for="themeSelect">Theme:</label>
+            <select id="themeSelect" name="themeSelect">
+                <option value="default">Default</option>
+                <option value="dark">Dark</option>
+                <option value="neon">Neon</option>
+            </select>
+        </div>
 
         <!-- Task input -->
         <div class="task-input">
+            <label for="taskInput" class="sr-only">Task Input</label>
             <input type="text" id="taskInput" name="taskInput" placeholder="Enter a new task">
+
+            <input type="date" id="dueDateInput">
+            
+            <label for="importantCheck" class="important-label">
+                <input type="checkbox" id="importantCheck" name="importantCheck"> Important
+            </label>
+
             <button id="addTaskBtn">Add Task</button>
         </div>
+
+        <!-- Filters -->
+        <div class="task-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="pending">Pending</button>
+            <button class="filter-btn" data-filter="important">Important</button>
+        </div>
+
+        <!-- Sorting -->
+        <div class="sort-section">
+            <label for="sortSelect">Sort:</label>
+            <select id="sortSelect">
+                <option value="default">Default</option>
+                <option value="az">A - Z</option>
+                <option value="za">Z - A</option>
+                <option value="date">Due Date</option>
+                <option value="important">Important First</option>
+            </select>
+        </div>
+
+        <!-- Live counters -->
+        <div class="task-counter">
+            Total: <span id="totalCount">0</span> |
+            Completed: <span id="completedCount">0</span> |
+            Pending: <span id="pendingCount">0</span> |
+            Important: <span id="importantCount">0</span>
+        </div>
+
         <ul id="taskList"></ul>
+        <p id="emptyMsg" class="empty-msg" style="display:none">No task Found</p>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

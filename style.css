@@ -10,25 +10,100 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #ff9a9e;
+    padding: 10px;
+    overflow-x: hidden;
+    transition: background 0.5s;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body::before {
+    content: "✓ ★ ✎";
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    animation: floatIcons 20s linear infinite;
+}
+
+@keyframes floatIcons {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(100px) rotate(180deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+    }
 }
 
 .container {
+    position: relative;
     background: rgba(255, 255, 255, 0.95);
     padding: 25px;
     width: 100%;
+    max-width: 450px;
     border-radius: 20px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transition: all 0.3s;
 }
 
 h1 {
     text-align: center;
     margin-bottom: 5px;
+    color: #333;
+    font-size: 28px;
+}
+
+.intro-text {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.theme-switcher {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    gap: 5px;
+    align-items: center;
+}
+
+.theme-switcher select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 .task-input {
     display: flex;
     gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .task-input input {
@@ -36,6 +111,13 @@ h1 {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.task-input input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px #007bff;
 }
 
 .task-input button {
@@ -45,10 +127,48 @@ h1 {
     color: white;
     border-radius: 10px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
 .task-input button:hover {
     background: #60a2fe;
+    transform: scale(1.05);
+}
+
+.important-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* FILTERS */
+.task-filters {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 5px 10px;
+    border: none;
+    background: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.task-counter {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 #taskList {
@@ -57,20 +177,240 @@ h1 {
 }
 
 #taskList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
     margin-bottom: 10px;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    background: rgba(245, 245, 245, 0.8);
+}
+
+#taskList li.important {
+    border-left: 5px solid #ffcc00;
+    border-right: 5px solid #ffcc00;
+    background: rgba(255, 250, 200, 0.4);
+}
+
+#taskList li:hover {
+    background-color: rgba(220, 220, 255, 0.7);
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#taskList li span {
+    flex: 1 1 150px;
+    margin: 0 10px;
+    word-break: break-word;
+    display: inline-block;
+}
+
+.completed {
+    background-color: rgba(200, 200, 200, 0.5);
+}
+
+.completed span {
+    text-decoration: line-through;
+    color: gray;
+    transition: all 0.3s;
 }
 
 /* BUTTONS */
+.edit-btn,
 .delete-btn {
+    margin-left: 5px;
     padding: 5px 10px;
     border: none;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, background 0.3s;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+}
+
+.edit-btn:hover {
+    background-color: #388e3c;
+    transform: scale(1.1);
+}
+
+.delete-btn {
     background-color: #ff4d4d;
 }
 
 .delete-btn:hover {
     background-color: #e60000;
+    transform: scale(1.1);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+body.theme-dark {
+    background: #1e1e1e;
+    color: #eee;
+}
+
+body.theme-dark .container {
+    background: rgba(44, 44, 44, 0.95);
+    color: #eee;
+}
+
+body.theme-dark .intro-text,
+body.theme-dark .intro {
+    color: white;
+}
+
+body.theme-neon {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    color: #fff;
+}
+
+body.theme-neon .container {
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+}
+
+body.theme-neon .intro-text {
+    color: #4ed0ea;
+}
+
+body.theme-neon .intro {
+    color: #ff00ff;
+}
+
+body.theme-neon .task-input input,
+body.theme-neon .task-input button,
+body.theme-neon .filter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+body.theme-neon .edit-btn {
+    background-color: #00ffea;
+    color: #000;
+}
+
+body.theme-neon .delete-btn {
+    background-color: #ff00aa;
+    color: #000;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 18px;
+    opacity: 1;
+    animation: floatUp 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 15px;
+    color: #777;
+    font-style: italic;
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+        max-width: 700px;
+        padding: 25px;
+    }
+
+    .task-input {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .task-input input {
+        flex: 1 1 65%;
+        min-width: 200px;
+    }
+
+    .task-input button {
+        flex: 1 1 30%;
+        min-width: 100px;
+    }
+
+    #taskList li {
+        flex-wrap: wrap;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    #taskList li span {
+        flex: 1 1 60%;
+        margin: 5px 10px;
+        word-break: break-word;
+    }
+
+    .edit-btn, .delete-btn {
+        margin-left: 10px;
+        margin-top: 5px;
+        flex: 1 1 auto;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .container {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .task-input {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .task-input input,
+    .task-input button {
+        width: 100%;
+    }
+
+    #taskList li {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    #taskList li span {
+        margin: 5px 0;
+        word-break: break-word;
+    }
+
+    .edit-btn, .delete-btn {
+        margin: 5px 0 0 0;
+        width: 100%;
+    }
 }
