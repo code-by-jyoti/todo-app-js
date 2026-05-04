@@ -120,6 +120,12 @@ h1 {
     box-shadow: 0 0 8px #007bff;
 }
 
+.task-input input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px #007bff;
+}
+
 .task-input button {
     padding: 12px 18px;
     border: none;
@@ -165,6 +171,36 @@ h1 {
     background: #007bff;
     color: #fff;
 }
+
+.task-counter {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.important-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* FILTERS */
+.task-filters {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 5px 10px;
+    border: none;
+    background: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 
 .task-counter {
     font-size: 14px;

@@ -166,6 +166,39 @@ function renderTasks() {
             });
         });
 
+        /* ---- DUE DATE ---- */
+        const date = document.createElement("small");
+        if (task.dueDate) {
+            date.textContent = "📅 Due: " + new Date(task.dueDate).toDateString();
+        }
+        else {
+            date.textContent = "";
+        }
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.className = "edit-btn";
+
+        editBtn.addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.value = task.text;
+            input.className = "edit-input";
+
+            span.replaceWith(input);
+            input.focus();
+
+            input.addEventListener("blur", () => {
+                const value = input.value.trim();
+                if (value) {
+                task.text = value;
+                }
+
+                saveTasks();
+                renderTasks();
+            });
+        })
+
         // Create delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
